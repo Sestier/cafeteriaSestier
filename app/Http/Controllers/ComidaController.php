@@ -54,10 +54,12 @@ class ComidaController extends Controller
     {
         $nombre = $request->input('txtNombre');
         $precio = $request->input('txtPrecio');
+        $descripcion = $request->input('txtDescripcion');
 
         $nuevaComida = new \App\Comida;
         $nuevaComida->nombre = $nombre;
         $nuevaComida->precio = $precio;
+        $nuevaComida->descripcion = $descripcion;
 
         $respuesta = array();
         $respuesta["exito"] = false;
@@ -112,6 +114,7 @@ class ComidaController extends Controller
         $comida = \App\Comida::find($id);
         $comida->nombre = $request->input('txtNombre');
         $comida->precio = $request->input('txtPrecio');
+        $comida->descripcion = $request->input('txtDescripcion');
 
         $respuesta = array();
         $respuesta["exito"]=false;

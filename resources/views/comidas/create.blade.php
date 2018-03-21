@@ -14,6 +14,8 @@
         <input type="text" name="txtNombre">
         <label>Precio:</label>
         <input type="text" name="txtPrecio">
+        <label>Descripción:</label>
+        <input type="text" name="txtDescripcion">
         <button type="submit">Agregar comida</button>
     </form>
 </body>
