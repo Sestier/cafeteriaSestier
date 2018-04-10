@@ -1,22 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Comidas</title>
-</head>
-<body>
+@extends('layouts.default')
+@section('content')
     <h1>Nueva comida</h1>
     <form method="POST" action="{{ route('comidas.store') }}">
         {{ csrf_field() }}
-        <label>Nombre:</label>
-        <input type="text" name="txtNombre">
-        <label>Precio:</label>
-        <input type="text" name="txtPrecio">
-        <label>Descripción:</label>
-        <input type="text" name="txtDescripcion">
+        <div class="form-group">
+            <label class="form-label">Nombre:</label>
+            <input class="form-control" type="text" name="txtNombre">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Precio:</label>
+            <input class="form-control" type="text" name="txtPrecio">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Descripción:</label>
+            <input class="form-control" type="text" name="txtDescripcion">
+        </div>
         <button type="submit">Agregar comida</button>
     </form>
-</body>
-</html>
+@endsection
