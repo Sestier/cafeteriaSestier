@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 10-04-2018 a las 01:33:50
+-- Tiempo de generación: 17-04-2018 a las 01:32:50
 -- Versión del servidor: 5.6.38
 -- Versión de PHP: 7.2.1
 
@@ -68,11 +68,31 @@ CREATE TABLE `password_resets` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tipoUsuario`
+--
+
+CREATE TABLE `tipoUsuario` (
+  `id` int(11) NOT NULL,
+  `descripcion` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `tipoUsuario`
+--
+
+INSERT INTO `tipoUsuario` (`id`, `descripcion`) VALUES
+(1, 'Administrador'),
+(2, 'Cliente');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `users`
 --
 
 CREATE TABLE `users` (
   `id` int(10) UNSIGNED NOT NULL,
+  `idTipoUsuario` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -85,8 +105,9 @@ CREATE TABLE `users` (
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Emiliano', 'emiliano@correo.com', '$2y$10$kxEHxdfcAxboShoKaMfsCuRq0pK/Wrc9WdQ4buPlL4et1KAD.iBDu', 'r30hTGgXQDzyA6dTRB3RofSY9o7ZBzAgefRZPop5SDtziPiQ7kLlyL3cPgFK', '2018-03-01 06:36:30', '2018-03-01 06:57:58');
+INSERT INTO `users` (`id`, `idTipoUsuario`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Emiliano', 'emiliano@correo.com', '$2y$10$kxEHxdfcAxboShoKaMfsCuRq0pK/Wrc9WdQ4buPlL4et1KAD.iBDu', 'r30hTGgXQDzyA6dTRB3RofSY9o7ZBzAgefRZPop5SDtziPiQ7kLlyL3cPgFK', '2018-03-01 06:36:30', '2018-03-01 06:57:58'),
+(2, 1, 'Sestier', 'sestier@mail.com', '$2y$10$Ek95Mff6MKT2lKMAFQ1.1OLw/kPXP5fPNxSPz0VURXRxq.mU6Z79y', '4fnUamdawNR7blRTOSkKxHCK9wy3fBYZlsJI0NOFn1apsGUQtIEMsJhPhAfC', '2018-04-17 07:26:32', '2018-04-17 08:10:49');
 
 --
 -- Índices para tablas volcadas
@@ -106,11 +127,18 @@ ALTER TABLE `password_resets`
   ADD KEY `password_resets_token_index` (`token`);
 
 --
+-- Indices de la tabla `tipoUsuario`
+--
+ALTER TABLE `tipoUsuario`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_email_unique` (`email`);
+  ADD UNIQUE KEY `users_email_unique` (`email`),
+  ADD KEY `idTipoUsuario` (`idTipoUsuario`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -123,7 +151,23 @@ ALTER TABLE `comidas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT de la tabla `tipoUsuario`
+--
+ALTER TABLE `tipoUsuario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`idTipoUsuario`) REFERENCES `tipoUsuario` (`id`);
