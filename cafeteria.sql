@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 17-04-2018 a las 01:32:50
+-- Tiempo de generación: 19-04-2018 a las 00:50:09
 -- Versión del servidor: 5.6.38
 -- Versión de PHP: 7.2.1
 
@@ -32,7 +32,7 @@ CREATE TABLE `comidas` (
 --
 
 INSERT INTO `comidas` (`id`, `nombre`, `precio`, `descripcion`) VALUES
-(1, 'Orden de burritos', '22.00', 'hue');
+(5, 'Quesadillas', '18.00', 'Tortillas de harina con queso.');
 
 -- --------------------------------------------------------
 
@@ -93,7 +93,7 @@ INSERT INTO `tipoUsuario` (`id`, `descripcion`) VALUES
 CREATE TABLE `users` (
   `id` int(10) UNSIGNED NOT NULL,
   `idTipoUsuario` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -107,7 +107,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `idTipoUsuario`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 1, 'Emiliano', 'emiliano@correo.com', '$2y$10$kxEHxdfcAxboShoKaMfsCuRq0pK/Wrc9WdQ4buPlL4et1KAD.iBDu', 'r30hTGgXQDzyA6dTRB3RofSY9o7ZBzAgefRZPop5SDtziPiQ7kLlyL3cPgFK', '2018-03-01 06:36:30', '2018-03-01 06:57:58'),
-(2, 1, 'Sestier', 'sestier@mail.com', '$2y$10$Ek95Mff6MKT2lKMAFQ1.1OLw/kPXP5fPNxSPz0VURXRxq.mU6Z79y', '4fnUamdawNR7blRTOSkKxHCK9wy3fBYZlsJI0NOFn1apsGUQtIEMsJhPhAfC', '2018-04-17 07:26:32', '2018-04-17 08:10:49');
+(2, 1, 'Sestier', 'sestier@mail.com', '$2y$10$Ek95Mff6MKT2lKMAFQ1.1OLw/kPXP5fPNxSPz0VURXRxq.mU6Z79y', 'h5PADxaCOKYZJyTbxSxhlca1Juq81pmt4j3Wv3vY9woceUmuvoGUKBQIDcFU', '2018-04-17 07:26:32', '2018-04-19 07:26:05'),
+(3, 2, NULL, 'usuario1@email.com', '$2y$10$GQjXX7w/Qbv0TEOrbOl.P.hyKWpH3xVwdikIA/zmm2mK1jabNntXK', '3ZiYY0xBgllQ9qPAiP0KCuECECkTuH5NjxmwVLFC893QEQOvmvLHNq1Ic66O', '2018-04-19 07:14:10', '2018-04-19 07:26:31'),
+(4, 2, NULL, 'usuario2@email.com', '$2y$10$ZMTRro9rDU/WcANzTeDs6OBy8APDTH6g8qPcansMhOoh6Uk3JLdCO', NULL, '2018-04-19 07:48:51', '2018-04-19 07:48:51');
 
 --
 -- Índices para tablas volcadas
@@ -148,7 +150,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `comidas`
 --
 ALTER TABLE `comidas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `tipoUsuario`
@@ -160,7 +162,7 @@ ALTER TABLE `tipoUsuario`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
