@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 19-04-2018 a las 00:50:09
+-- Tiempo de generación: 24-04-2018 a las 01:46:11
 -- Versión del servidor: 5.6.38
 -- Versión de PHP: 7.2.1
 
@@ -33,6 +33,43 @@ CREATE TABLE `comidas` (
 
 INSERT INTO `comidas` (`id`, `nombre`, `precio`, `descripcion`) VALUES
 (5, 'Quesadillas', '18.00', 'Tortillas de harina con queso.');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `elementosPedido`
+--
+
+CREATE TABLE `elementosPedido` (
+  `id` int(11) NOT NULL,
+  `idPedido` int(11) NOT NULL,
+  `idComida` int(11) NOT NULL,
+  `nombreComida` varchar(255) NOT NULL,
+  `precioComida` float NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `subtotal` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `estadosPedidos`
+--
+
+CREATE TABLE `estadosPedidos` (
+  `id` int(11) NOT NULL,
+  `descripcion` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `estadosPedidos`
+--
+
+INSERT INTO `estadosPedidos` (`id`, `descripcion`) VALUES
+(1, 'Listo para entregar'),
+(2, 'Entregado'),
+(5, 'Recibido'),
+(6, 'En preparacion');
 
 -- --------------------------------------------------------
 
@@ -68,6 +105,20 @@ CREATE TABLE `password_resets` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `pedidos`
+--
+
+CREATE TABLE `pedidos` (
+  `id` int(11) NOT NULL,
+  `idUsuario` int(11) NOT NULL,
+  `idEstadoPedido` int(11) NOT NULL,
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `total` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tipoUsuario`
 --
 
@@ -91,7 +142,7 @@ INSERT INTO `tipoUsuario` (`id`, `descripcion`) VALUES
 --
 
 CREATE TABLE `users` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(11) NOT NULL,
   `idTipoUsuario` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -107,7 +158,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `idTipoUsuario`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 1, 'Emiliano', 'emiliano@correo.com', '$2y$10$kxEHxdfcAxboShoKaMfsCuRq0pK/Wrc9WdQ4buPlL4et1KAD.iBDu', 'r30hTGgXQDzyA6dTRB3RofSY9o7ZBzAgefRZPop5SDtziPiQ7kLlyL3cPgFK', '2018-03-01 06:36:30', '2018-03-01 06:57:58'),
-(2, 1, 'Sestier', 'sestier@mail.com', '$2y$10$Ek95Mff6MKT2lKMAFQ1.1OLw/kPXP5fPNxSPz0VURXRxq.mU6Z79y', 'h5PADxaCOKYZJyTbxSxhlca1Juq81pmt4j3Wv3vY9woceUmuvoGUKBQIDcFU', '2018-04-17 07:26:32', '2018-04-19 07:26:05'),
+(2, 1, 'Sestier', 'sestier@mail.com', '$2y$10$Ek95Mff6MKT2lKMAFQ1.1OLw/kPXP5fPNxSPz0VURXRxq.mU6Z79y', 'GpD0hfGXDffpdNTvzrTI4oIQ93q2VS3kAIM0OE4r61MZr5keWdE3I5Gc6L8i', '2018-04-17 07:26:32', '2018-04-24 08:27:02'),
 (3, 2, NULL, 'usuario1@email.com', '$2y$10$GQjXX7w/Qbv0TEOrbOl.P.hyKWpH3xVwdikIA/zmm2mK1jabNntXK', '3ZiYY0xBgllQ9qPAiP0KCuECECkTuH5NjxmwVLFC893QEQOvmvLHNq1Ic66O', '2018-04-19 07:14:10', '2018-04-19 07:26:31'),
 (4, 2, NULL, 'usuario2@email.com', '$2y$10$ZMTRro9rDU/WcANzTeDs6OBy8APDTH6g8qPcansMhOoh6Uk3JLdCO', NULL, '2018-04-19 07:48:51', '2018-04-19 07:48:51');
 
@@ -122,11 +173,33 @@ ALTER TABLE `comidas`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `elementosPedido`
+--
+ALTER TABLE `elementosPedido`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idPedido` (`idPedido`),
+  ADD KEY `idComida` (`idComida`);
+
+--
+-- Indices de la tabla `estadosPedidos`
+--
+ALTER TABLE `estadosPedidos`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `password_resets`
 --
 ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`),
   ADD KEY `password_resets_token_index` (`token`);
+
+--
+-- Indices de la tabla `pedidos`
+--
+ALTER TABLE `pedidos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idUsuario` (`idUsuario`),
+  ADD KEY `idEstadoPedido` (`idEstadoPedido`);
 
 --
 -- Indices de la tabla `tipoUsuario`
@@ -153,6 +226,24 @@ ALTER TABLE `comidas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT de la tabla `elementosPedido`
+--
+ALTER TABLE `elementosPedido`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `estadosPedidos`
+--
+ALTER TABLE `estadosPedidos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de la tabla `pedidos`
+--
+ALTER TABLE `pedidos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `tipoUsuario`
 --
 ALTER TABLE `tipoUsuario`
@@ -162,11 +253,25 @@ ALTER TABLE `tipoUsuario`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `elementosPedido`
+--
+ALTER TABLE `elementosPedido`
+  ADD CONSTRAINT `elementospedido_ibfk_1` FOREIGN KEY (`idComida`) REFERENCES `comidas` (`id`),
+  ADD CONSTRAINT `elementospedido_ibfk_2` FOREIGN KEY (`idPedido`) REFERENCES `pedidos` (`id`);
+
+--
+-- Filtros para la tabla `pedidos`
+--
+ALTER TABLE `pedidos`
+  ADD CONSTRAINT `pedidos_ibfk_1` FOREIGN KEY (`idEstadoPedido`) REFERENCES `estadosPedidos` (`id`),
+  ADD CONSTRAINT `pedidos_ibfk_2` FOREIGN KEY (`idUsuario`) REFERENCES `users` (`id`);
 
 --
 -- Filtros para la tabla `users`
